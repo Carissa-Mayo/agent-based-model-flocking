@@ -9,11 +9,11 @@ Class proejct for CSCI 4314 Dynamic Models in Biology by Dr. Orit Peleg. Code wa
 * Cohesion (attraction): mild pull toward neighbors
 * Separation (repulsion): inverse-square push to avoid collisions (with epsilon guard)
 * Alignment:
-+ Local (FOV): align only to neighbors within a radius and angular cone
-+ Or Global: align to average velocity of the flock (toggle)
+    + Local (FOV): align only to neighbors within a radius and angular cone
+    + Or Global: align to average velocity of the flock (toggle)
 * Predator (optional):
-+ Boids repel from predator (inverse-square)
-+ Predator seeks prey using its own FOV (narrower angle, larger radius)
+    + Boids repel from predator (inverse-square)
+    + Predator seeks prey using its own FOV (narrower angle, larger radius)
 * Random walk: zero-mean Gaussian velocity noise each step → stochastic drift on a torus
 * Torus wrapping: positions wrap in both axes
 * Speed caps: boids and predator can have different vlimit
