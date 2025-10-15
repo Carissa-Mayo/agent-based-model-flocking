@@ -2,7 +2,7 @@
 
 Agent-based schooling with cohesion, separation, alignment, optional field-of-vision (FOV), random walks and a predator. Periodic boundaries, live plotting, and a clean parameter interface.
 
-Class proejct for CSCI 4314 Dynamic Models in Biology by Dr. Orit Peleg. Code was adpated from in-class assignments.
+Class project for CSCI 4314 Dynamic Models in Biology by Dr. Orit Peleg. Code was adpated from in-class assignments.
 
 ![Schooling demo](schooling_demo.gif)
 
