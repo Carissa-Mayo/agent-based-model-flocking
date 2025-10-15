@@ -4,7 +4,7 @@ Agent-based schooling with cohesion, separation, alignment, optional field-of-vi
 
 Class proejct for CSCI 4314 Dynamic Models in Biology by Dr. Orit Peleg. Code was adpated from in-class assignments.
 
-![Flocking demo](schooling_demo.mp4)
+![Schooling demo](schooling_demo.gif)
 
 ## Model Contents
 
