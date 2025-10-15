@@ -1,6 +1,6 @@
 # Schooling Model with Random Walk and Predator Implementation
 
-Agent-based schooling with cohesion, separation, alignment, optional field-of-vision (FOV), and an optional predator. Periodic boundaries, live plotting, and a clean parameter interface.
+Agent-based schooling with cohesion, separation, alignment, optional field-of-vision (FOV), random walks and a predator. Periodic boundaries, live plotting, and a clean parameter interface.
 
 Class proejct for CSCI 4314 Dynamic Models in Biology by Dr. Orit Peleg. Code was adpated from in-class assignments.
 
