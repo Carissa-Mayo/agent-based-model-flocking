@@ -28,4 +28,4 @@ Velocity noise is added as v_noise = c_noise*randn(2,N) each step. With all soci
 * With low/no global heading, FOV still produces small, coherent groups; the basic model does not.
 * Predator + FOV yields plausible chase/avoid dynamics (predator narrows to a target; school forms avoidance structures).
 
-*See the ![report](Final_report.pdf) for methods, figures and discussion.*
+*See the ![report](Project_report.pdf) for methods, figures and discussion.*
