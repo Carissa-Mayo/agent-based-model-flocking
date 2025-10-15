@@ -1,6 +1,6 @@
-# Flocking Model with Random Walk and Predator Implementation
+# Schooling Model with Random Walk and Predator Implementation
 
-Agent-based flocking with cohesion, separation, alignment, optional field-of-vision (FOV), and an optional predator. Periodic boundaries, live plotting, and a clean parameter interface.
+Agent-based schooling with cohesion, separation, alignment, optional field-of-vision (FOV), and an optional predator. Periodic boundaries, live plotting, and a clean parameter interface.
 
 Class proejct for CSCI 4314 Dynamic Models in Biology by Dr. Orit Peleg. Code was adpated from in-class assignments.
 
@@ -10,7 +10,7 @@ Class proejct for CSCI 4314 Dynamic Models in Biology by Dr. Orit Peleg. Code wa
 * Separation (repulsion): inverse-square push to avoid collisions (with epsilon guard)
 * Alignment:
     + Local (FOV): align only to neighbors within a radius and angular cone
-    + Or Global: align to average velocity of the flock (toggle)
+    + Or Global: align to average velocity of the school (toggle)
 * Predator (optional):
     + Boids repel from predator (inverse-square)
     + Predator seeks prey using its own FOV (narrower angle, larger radius)
@@ -24,6 +24,6 @@ Velocity noise is added as v_noise = c_noise*randn(2,N) each step. With all soci
 ## Results
 * FOV removes unrealistic, instantaneous re-heading; turns emerge gradually and locally.
 * With low/no global heading, FOV still produces small, coherent groups; the basic model does not.
-* Predator + FOV yields plausible chase/avoid dynamics (predator narrows to a target; flock forms avoidance structures).
+* Predator + FOV yields plausible chase/avoid dynamics (predator narrows to a target; school forms avoidance structures).
 
 *See the report for methods, figures and discussion.*
