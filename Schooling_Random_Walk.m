@@ -1,15 +1,13 @@
-function y_out = Flocking_Random_Walk()
-% Flocking_FieldOfVision
+function y_out = Schooling_Random_Walk()
+% schooling_FieldOfVision
 % ---------------------------------------------------------------
-% Agent-based "boids" flocking in 2D with:
+% Agent-based "boids" schooling in 2D with:
 %  - Cohesion (attraction), Separation (repulsion), Alignment
 %  - Optional Field-of-View (range + angle) for alignment
 %  - Optional Predator (boids repel; predator seeks nearby boids)
 %  - Toroidal (wrap-around) boundaries
 %  - Live plotting
-%  - Raandom Walk - Each boid receives zero-mean Gaussian noise added to its velocity at every step
-%
-% Tip: Tweak the parameters in the "USER PARAMETERS" section below.
+%  - Random Walk - Each boid receives zero-mean Gaussian noise added to its velocity
 
 %% VISUAL DEFAULTS
 close all;
@@ -77,7 +75,51 @@ if use_predator
     p(:, end) = p(:, end) + pred_init_offset;
 end
 
-figure('Color','w'); axis equal;
+fig = figure('Color','w','Position',[100 100 800 800]);
+set(fig,'InvertHardcopy','off');
+set(fig,'Renderer','opengl');   % safer for getframe
+
+ax = axes('Parent',fig,'Color','w');   % persistent white axes
+axis(ax,'equal');
+% turn OFF all gridlines and axis numbers/labels
+grid(ax,'off'); box(ax,'on');
+ax.XTick = []; ax.YTick = [];
+ax.XLabel.String = ''; ax.YLabel.String = '';
+ax.XColor = [0 0 0];  % axis line color
+ax.YColor = [0 0 0];
+ax.LineWidth = 1.0;   % thickness of the axis lines
+ax.Title.Color = [0 0 0];
+
+% --- VIDEO SETUP  ---
+record_video = true; % toggle recording on/off
+
+if record_video
+    outdir = 'media'; if ~exist(outdir,'dir'), mkdir(outdir); end
+
+    % don't reuse 'p' or 'v' here — avoid collisions with positions/velocities
+    profNames = strings(0,1);
+    try
+        profs = VideoWriter.getProfiles;
+        profNames = lower(string({profs.Name}));
+    catch
+        % some environments don't support getProfiles; we'll just fall back
+        profNames = strings(0,1);
+    end
+
+    if any(profNames == "mpeg-4")
+        outfile = fullfile(outdir,'schooling_demo.mp4');
+        vw = VideoWriter(outfile,'MPEG-4');
+    else
+        outfile = fullfile(outdir,'schooling_demo.avi');
+        vw = VideoWriter(outfile,'Motion JPEG AVI');
+    end
+
+    vw.FrameRate = 30;
+    open(vw);
+end
+% --- END VIDEO SETUP ---
+
+
 
 %% MAIN LOOP ---------------------------------------------------------------
 for k = 1:frames
@@ -203,31 +245,53 @@ for k = 1:frames
     p = wrap_position(p, L);
 
     % --- Plot
-    clf;
-    hold on;
+    cla(ax);                       % keep styling; just clear contents
+    hold(ax,'on');
+    
     % boids
-    plot(p(1,1:N), p(2,1:N), 'k.', 'MarkerSize', 10);
+    plot(ax, p(1,1:N), p(2,1:N), 'k.', 'MarkerSize', 10);
+    
     % predator
     if use_predator
-        plot(p(1,predIdx), p(2,predIdx), 'r.', 'MarkerSize', 18);
+        plot(ax, p(1,predIdx), p(2,predIdx), 'r.', 'MarkerSize', 18);
     end
-
-    if show_quiver
-        idx = 1:N;
-        quiver(p(1,idx), p(2,idx), v(1,idx), v(2,idx), 0.5);
-        if use_predator
-            quiver(p(1,predIdx), p(2,predIdx), v(1,predIdx), v(2,predIdx), 0.5, 'r');
-        end
+    
+    % blue arrows for boids
+    idx = 1:N;
+    quiver(ax, p(1,idx), p(2,idx), v(1,idx), v(2,idx), 0.5, 'Color', [0 0.45 0.90]);
+    
+    % red arrow for predator
+    if use_predator
+        quiver(ax, p(1,predIdx), p(2,predIdx), v(1,predIdx), v(2,predIdx), 0.5, 'Color', [0.85 0 0]);
     end
-
-    axis([-limit limit -limit limit]); axis square;
-    grid on; box on;
-    title(sprintf('Flocking with Random Walk%s%s (frame %d/%d)', ...
-        ternary(use_fov,'', ' OFF'), ternary(use_predator,' + Predator',''), k, frames));
+    
+    % limits + square, no grid/box/ticks
+    set(ax,'XLim',[-limit limit],'YLim',[-limit limit]);
+    axis(ax,'square');
+    grid(ax,'off'); box(ax,'on');
+    ax.XTick = []; ax.YTick = [];
+    ax.XLabel.String = ''; ax.YLabel.String = '';
+    ax.XColor = [0 0 0];  % axis line color
+    ax.YColor = [0 0 0];
+    ax.LineWidth = 1.0;   % thickness of the axis lines
+    
+    title(ax,'Schooling with Random Walk and Predator');
     drawnow;
+
+
+    if record_video
+        frame = getframe(fig);
+        writeVideo(vw, frame);
+    end
+
     hold off;
 
     pause(0.01); % slow down a touch for viewing
+end
+
+if exist('record_video','var') && record_video
+    close(vw);
+    fprintf("Saved: %s\n", outfile);
 end
 
 y_out = 0;
